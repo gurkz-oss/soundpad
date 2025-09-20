@@ -5,12 +5,18 @@ import { SolidQueryDevtools } from "@tanstack/solid-query-devtools";
 
 import "./App.css";
 import App from "./App";
-import { createSignal, ParentProps } from "solid-js";
+import { createSignal, onMount, ParentProps } from "solid-js";
+import { checkForAppUpdates } from "./update";
 
 export const [selectedDevice, setSelectedDevice] = createSignal<string>("");
 
 function Root(props: ParentProps) {
   const client = new QueryClient();
+
+  onMount(async () => {
+    await checkForAppUpdates(false);
+  });
+
   return (
     <QueryClientProvider client={client}>
       {props.children}

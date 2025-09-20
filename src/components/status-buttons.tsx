@@ -2,6 +2,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { Button } from "./ui/button";
 import { open } from "@tauri-apps/plugin-dialog";
 import { selectedDevice } from "..";
+import { checkForAppUpdates } from "@/update";
 
 async function selectFile() {
   const path = await open({
@@ -39,6 +40,13 @@ export function StatusButtons() {
         }}
       >
         stop all sounds
+      </Button>
+      <Button
+        onClick={async () => {
+          await checkForAppUpdates(true);
+        }}
+      >
+        update
       </Button>
     </div>
   );
