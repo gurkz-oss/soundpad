@@ -1,0 +1,47 @@
+{
+  "$schema": "https://schema.tauri.app/config/2.8.5",
+  "productName": "soundpad",
+  "version": "1.0.0",
+  "identifier": "me.gurkz.soundpad",
+  "build": {
+    "beforeDevCommand": "bun run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "bun run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "soundpad",
+        "width": 800,
+        "height": 600
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "plugins": {
+    "updater": {
+      "windows": {
+        "installMode": "basicUi"
+      },
+      "active": true,
+      "endpoints": ["https://updater.gurkz.me/{{target}}/{{arch}}/latest.json"],
+      "dialog": true,
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDdCQjZDQTQ3NTNBRjQwNDQKUldSRVFLOVRSOHEyZTJPakRNejUrMjBFMHVsM0QwRjdobXJScVlPTUVENmJWZlBES3d0d29vQ0kK"
+    }
+  },
+  "bundle": {
+    "createUpdaterArtifacts": true,
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
+}
