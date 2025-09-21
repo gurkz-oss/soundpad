@@ -54,9 +54,7 @@ function Rename(props: { song: SoundItem }) {
   return (
     <>
       <DialogHeader>
-        <DialogTitle>
-          rename "{props.song.name} - {props.song.path}"
-        </DialogTitle>
+        <DialogTitle>rename "{props.song.name}"</DialogTitle>
         <Form
           of={form}
           onSubmit={async (output) =>
