@@ -1,10 +1,9 @@
-import { createEffect, createResource, createSignal, onMount } from "solid-js";
+import { createEffect, createSignal, onMount } from "solid-js";
 import { invoke } from "@tauri-apps/api/core";
-import { getVersion, getTauriVersion } from "@tauri-apps/api/app";
 import { load } from "@tauri-apps/plugin-store";
 import { appDataDir } from "@tauri-apps/api/path";
 import { SongList } from "@/components/song-list";
-import { selectedDevice, setSelectedDevice } from "..";
+import { selectedDevice, setSelectedDevice } from "@/libs/device";
 import {
   Select,
   SelectContent,
@@ -20,9 +19,6 @@ const store = await load("store.json");
 const [devices, setDevices] = createSignal<string[]>([]);
 
 export function HomePage() {
-  const [appVersion] = createResource(() => getVersion());
-  const [tauriVersion] = createResource(() => getTauriVersion());
-
   onMount(async () => {
     console.log(await appDataDir());
 
@@ -49,16 +45,12 @@ export function HomePage() {
   });
 
   return (
-    <main class="p-2">
+    <>
       <SongAdder />
-      <p>
-        app version: {appVersion()} and tauri version {tauriVersion()}
-        selected device: {selectedDevice()}
-      </p>
       {devices().length > 0 && (
         <>
-          <label>Select device:</label>
           <Select
+            required
             onChange={setSelectedDevice}
             value={selectedDevice()}
             options={devices()}
@@ -81,6 +73,6 @@ export function HomePage() {
       <br />
 
       <StatusButtons />
-    </main>
+    </>
   );
 }

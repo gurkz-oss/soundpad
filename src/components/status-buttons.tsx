@@ -1,7 +1,7 @@
 import { invoke } from "@tauri-apps/api/core";
 import { Button } from "./ui/button";
 import { open } from "@tauri-apps/plugin-dialog";
-import { selectedDevice } from "..";
+import { selectedDevice } from "@/libs/device";
 import { checkForAppUpdates } from "@/update";
 
 async function selectFile() {

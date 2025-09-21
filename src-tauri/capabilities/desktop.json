@@ -11,6 +11,7 @@
   "permissions": [
     "updater:default",
     "process:default",
-    "http:default"
+    "http:default",
+    "opener:default"
   ]
 }

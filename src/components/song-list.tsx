@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/solid-query";
 import { invoke } from "@tauri-apps/api/core";
 import { For, Show } from "solid-js/web";
-import { selectedDevice } from "../index";
+import { selectedDevice } from "@/libs/device";
 import { Button } from "@/components/ui/button";
 
 export type Song = {
