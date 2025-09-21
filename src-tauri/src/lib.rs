@@ -12,6 +12,7 @@ use tauri_plugin_dialog::{DialogExt, MessageDialogKind};
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_fs::init())
         .setup(|app| {
             if let Some(virtual_mic) = detect_virtual_mic() {
                 println!("Virtual mic detected: {}", virtual_mic);

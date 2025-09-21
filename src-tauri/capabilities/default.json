@@ -14,11 +14,28 @@
     "updater:allow-download-and-install",
     {
       "identifier": "http:default",
-      "allow": [{ "url": "https://myinstants-api.vercel.app/" }]
+      "allow": [
+        {
+          "url": "https://myinstants-api.vercel.app/"
+        }
+      ]
     },
     {
       "identifier": "opener:allow-open-path",
-      "allow": [{ "path": "$APPDATA" }]
+      "allow": [
+        {
+          "path": "$APPDATA"
+        }
+      ]
+    },
+    "fs:default",
+    {
+      "identifier": "fs:allow-rename",
+      "allow": [
+        {
+          "path": "$APPDATA/songs/*"
+        }
+      ]
     }
   ]
 }

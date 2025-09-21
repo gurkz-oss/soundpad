@@ -5,6 +5,7 @@ import { selectedDevice } from "@/libs/device";
 import { checkForAppUpdates } from "@/update";
 import { appDataDir } from "@tauri-apps/api/path";
 import { openPath } from "@tauri-apps/plugin-opener";
+import SquareArrowOutUpRight from "lucide-solid/icons/square-arrow-out-up-right";
 
 async function selectFile() {
   const path = await open({
@@ -33,7 +34,9 @@ export function StatusButtons() {
         onClick={async () => {
           openPath(await appDataDir());
         }}
+        class="flex flex-row gap-2"
       >
+        <SquareArrowOutUpRight size={16} />
         open soundpad folder
       </Button>
       <Button
