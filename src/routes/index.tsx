@@ -1,7 +1,6 @@
 import { createEffect, createResource, createSignal, onMount } from "solid-js";
 import { invoke } from "@tauri-apps/api/core";
 import { getVersion, getTauriVersion } from "@tauri-apps/api/app";
-import { FileAdder } from "@/components/file-adder";
 import { load } from "@tauri-apps/plugin-store";
 import { appDataDir } from "@tauri-apps/api/path";
 import { SongList } from "@/components/song-list";
@@ -14,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { StatusButtons } from "@/components/status-buttons";
+import { SongAdder } from "@/components/song-adder";
 
 const store = await load("store.json");
 
@@ -50,7 +50,7 @@ export function HomePage() {
 
   return (
     <main class="p-2">
-      <FileAdder />
+      <SongAdder />
       <p>
         app version: {appVersion()} and tauri version {tauriVersion()}
         selected device: {selectedDevice()}

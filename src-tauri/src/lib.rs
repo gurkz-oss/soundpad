@@ -8,6 +8,10 @@ use std::sync::{Arc, Mutex, OnceLock};
 use tauri::Manager;
 use tauri_plugin_updater::UpdaterExt;
 
+mod fs;
+mod myinstants;
+mod util;
+
 #[derive(Serialize)]
 struct SongInfo {
     name: String,
@@ -201,9 +205,48 @@ fn list_songs(app_handle: tauri::AppHandle) -> Result<Vec<SongInfo>, String> {
     Ok(files)
 }
 
+#[tauri::command]
+async fn download_from_myinstants(
+    url: String,
+    app_handle: tauri::AppHandle,
+) -> Result<String, String> {
+    // Fetch data from myinstants
+    let data = myinstants::get_data(&url)
+        .await
+        .map_err(|e| e.to_string())?;
+
+    // Construct file name
+    let safe_name = crate::util::sanitize_filename(&data.title);
+    let name = format!("{}.mp3", safe_name);
+
+    // Get app data directory
+    let data_dir: PathBuf = app_handle
+        .path()
+        .app_data_dir()
+        .map_err(|e| e.to_string())?;
+
+    // Ensure songs directory exists
+    let songs_dir = data_dir.join("songs");
+    tokio::fs::create_dir_all(&songs_dir)
+        .await
+        .map_err(|e| e.to_string())?;
+
+    // Destination path
+    let dest = songs_dir.join(name);
+
+    // Download the MP3
+    crate::fs::download_file(&data.mp3, &dest)
+        .await
+        .map_err(|e| e.to_string())?;
+
+    println!("Song downloaded to {}", dest.display());
+    Ok(dest.to_string_lossy().to_string())
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_http::init())
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(tauri_plugin_updater::Builder::new().build())
@@ -214,7 +257,8 @@ pub fn run() {
             list_audio_devices,
             stop_all_sounds,
             add_song,
-            list_songs
+            list_songs,
+            download_from_myinstants
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
