@@ -12,6 +12,8 @@ import { ContextMenuTriggerProps } from "@kobalte/core/context-menu";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -24,11 +26,12 @@ import {
   TextFieldErrorMessage,
   TextFieldRoot,
 } from "./ui/textfield";
-import { BaseDirectory, rename } from "@tauri-apps/plugin-fs";
+import { CloseButton } from "@kobalte/core/dialog";
+import { BaseDirectory, remove, rename } from "@tauri-apps/plugin-fs";
 import { useQueryClient } from "@tanstack/solid-query";
 import * as path from "@tauri-apps/api/path";
 
-const [dialogMode, setDialogMode] = createSignal<"rename">("rename");
+const [dialogMode, setDialogMode] = createSignal<"rename" | "delete">("rename");
 
 const forbiddenCharsRegex = new RegExp(`^(?!.*[<>:"/\\|?*]).*$`); // Negative lookahead for forbidden characters
 const forbiddenExtensionRegex = new RegExp(`^(?!.*\\.[^\\\\]*$).*$`); // Negative lookahead for file extensions
@@ -97,6 +100,40 @@ function Rename(props: { song: SoundItem }) {
   );
 }
 
+function Delete(props: { song: SoundItem }) {
+  const queryClient = useQueryClient();
+  return (
+    <>
+      <DialogHeader>
+        <DialogTitle>delete "{props.song.name}"?</DialogTitle>
+        <DialogDescription>
+          this will permanently delete this file, and it cannot be recovered.
+        </DialogDescription>
+      </DialogHeader>
+      <DialogFooter>
+        <Button
+          onClick={async () =>
+            await remove(await path.join("songs", `${props.song.name}.mp3`), {
+              baseDir: BaseDirectory.AppData,
+            }).then(
+              async () =>
+                await queryClient.invalidateQueries({
+                  queryKey: ["songs", "get"],
+                })
+            )
+          }
+          variant={"destructive"}
+        >
+          yes
+        </Button>
+        <CloseButton>
+          <Button variant={"outline"}>no</Button>
+        </CloseButton>
+      </DialogFooter>
+    </>
+  );
+}
+
 export function SoundpadItem(props: { song: SoundItem }) {
   return (
     <Dialog>
@@ -127,6 +164,11 @@ export function SoundpadItem(props: { song: SoundItem }) {
               rename
             </DialogTrigger>
           </ContextMenuItem>
+          <ContextMenuItem>
+            <DialogTrigger onClick={() => setDialogMode("delete")}>
+              delete
+            </DialogTrigger>
+          </ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
 
@@ -134,6 +176,9 @@ export function SoundpadItem(props: { song: SoundItem }) {
         <Switch>
           <Match when={dialogMode() === "rename"}>
             <Rename song={props.song} />
+          </Match>
+          <Match when={dialogMode() === "delete"}>
+            <Delete song={props.song} />
           </Match>
         </Switch>
       </DialogContent>

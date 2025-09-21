@@ -36,6 +36,14 @@
           "path": "$APPDATA/songs/*"
         }
       ]
+    },
+    {
+      "identifier": "fs:allow-remove",
+      "allow": [
+        {
+          "path": "$APPDATA/songs/*"
+        }
+      ]
     }
   ]
 }
