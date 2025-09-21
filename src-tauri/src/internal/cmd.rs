@@ -2,6 +2,7 @@ use crate::internal::state::AppState;
 use crate::internal::{audio, fs, myinstants, util};
 use cpal::traits::{DeviceTrait, HostTrait};
 use std::sync::Arc;
+use std::time::SystemTime;
 use std::{path::PathBuf, sync::Mutex};
 use tauri::{Manager, State};
 
@@ -153,12 +154,25 @@ pub fn list_songs(app_handle: tauri::AppHandle) -> Result<Vec<audio::SongInfo>, 
                 .to_string_lossy()
                 .to_string();
 
+            // Get the file's creation time
+            let created_time = match std::fs::metadata(&path) {
+                Ok(metadata) => match metadata.created() {
+                    Ok(time) => time,
+                    Err(_) => SystemTime::UNIX_EPOCH, // Fallback in case creation time is unavailable
+                },
+                Err(_) => SystemTime::UNIX_EPOCH, // Fallback if we can't get metadata
+            };
+
             files.push(audio::SongInfo {
                 name,
                 path: path.to_string_lossy().to_string(),
+                created_time,
             });
         }
     }
+
+    // Sort files by creation time, with the most recently created first
+    files.sort_by(|a, b| b.created_time.cmp(&a.created_time));
 
     Ok(files)
 }

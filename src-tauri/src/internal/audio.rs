@@ -2,11 +2,13 @@ use cpal::traits::{DeviceTrait, HostTrait};
 use rodio::Sink;
 use serde::Serialize;
 use std::sync::{Arc, Mutex, OnceLock};
+use std::time::SystemTime;
 
 #[derive(Serialize)]
 pub struct SongInfo {
     pub name: String,
     pub path: String,
+    pub created_time: SystemTime,
 }
 
 static ACTIVE_SINKS: OnceLock<Mutex<Vec<Arc<Sink>>>> = OnceLock::new();
