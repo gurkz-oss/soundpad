@@ -30,6 +30,7 @@ import { CloseButton } from "@kobalte/core/dialog";
 import { BaseDirectory, remove, rename } from "@tauri-apps/plugin-fs";
 import { useQueryClient } from "@tanstack/solid-query";
 import * as path from "@tauri-apps/api/path";
+import { revealItemInDir } from "@tauri-apps/plugin-opener";
 
 const [dialogMode, setDialogMode] = createSignal<"rename" | "delete">("rename");
 
@@ -168,6 +169,19 @@ export function SoundpadItem(props: { song: SoundItem }) {
             <DialogTrigger onClick={() => setDialogMode("delete")}>
               delete
             </DialogTrigger>
+          </ContextMenuItem>
+          <ContextMenuItem
+            onClick={async () =>
+              revealItemInDir(
+                await path.join(
+                  await path.appDataDir(),
+                  "songs",
+                  `${props.song.name}.mp3`
+                )
+              )
+            }
+          >
+            reveal in explorer
           </ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
