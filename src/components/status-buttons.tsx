@@ -3,6 +3,8 @@ import { Button } from "./ui/button";
 import { open } from "@tauri-apps/plugin-dialog";
 import { selectedDevice } from "@/libs/device";
 import { checkForAppUpdates } from "@/update";
+import { appDataDir } from "@tauri-apps/api/path";
+import { openPath } from "@tauri-apps/plugin-opener";
 
 async function selectFile() {
   const path = await open({
@@ -27,6 +29,13 @@ async function selectFile() {
 export function StatusButtons() {
   return (
     <div class="flex flex-row gap-2">
+      <Button
+        onClick={async () => {
+          openPath(await appDataDir());
+        }}
+      >
+        open soundpad folder
+      </Button>
       <Button
         onClick={() => {
           selectFile();

@@ -15,6 +15,10 @@
     {
       "identifier": "http:default",
       "allow": [{ "url": "https://myinstants-api.vercel.app/" }]
+    },
+    {
+      "identifier": "opener:allow-open-path",
+      "allow": [{ "path": "$APPDATA" }]
     }
   ]
 }
