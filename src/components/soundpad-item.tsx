@@ -93,7 +93,7 @@ function Rename(props: { song: SoundItem }) {
             )}
           </Field>
           <Button disabled={form.isSubmitting} type="submit">
-            add
+            rename
           </Button>
         </Form>
       </DialogHeader>
