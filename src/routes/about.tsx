@@ -48,6 +48,16 @@ export function About() {
         </a>{" "}
         to download files from MyInstants, licensed under the MIT license
       </p>
+      <p>
+        this app uses
+        <a
+          class="cursor-pointer text-blue-500 hover:text-blue-700 underline hover:no-underline transition-all duration-300 ease-in-out"
+          onClick={() => openUrl("www.mp3dev.org")}
+        >
+          libmp3lame.dll
+        </a>{" "}
+        for recording system audio.
+      </p>
     </>
   );
 }

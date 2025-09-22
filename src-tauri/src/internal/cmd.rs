@@ -22,7 +22,7 @@ pub fn list_audio_devices() -> Vec<String> {
 fn new_play(
     path: String,
     device_name: String,
-    state: State<'_, Mutex<AppState>>,
+    state: State<'_, AppState>,
 ) -> Result<String, Box<dyn std::error::Error>> {
     let host = cpal::default_host();
 
@@ -63,10 +63,10 @@ fn new_play(
         .unwrap()
         .push(Arc::clone(&sink1));
 
-    let state = state.lock().unwrap();
+    let virtual_mic = state.virtual_mic.lock().unwrap();
 
     // 2. Detect virtual mic and play on it if present
-    let sink2 = create_sink_for_device(&host, &state.virtual_mic, &path)?;
+    let sink2 = create_sink_for_device(&host, &virtual_mic, &path)?;
     audio::get_active_sinks()
         .lock()
         .unwrap()
@@ -89,7 +89,7 @@ pub fn stop_all_sounds() -> String {
 pub fn play_audio(
     path: String,
     device_name: String,
-    state: State<'_, Mutex<AppState>>,
+    state: State<'_, AppState>,
 ) -> Result<String, ()> {
     match new_play(path, device_name, state) {
         Ok(msg) => Ok(msg),

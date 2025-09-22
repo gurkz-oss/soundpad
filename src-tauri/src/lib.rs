@@ -4,6 +4,7 @@ use internal::audio::detect_virtual_mic;
 use internal::cmd::{
     add_song, download_from_myinstants, list_audio_devices, list_songs, play_audio, stop_all_sounds,
 };
+use internal::recorder::{start_recording, stop_recording};
 use internal::state::AppState;
 use std::sync::Mutex;
 use tauri::Manager;
@@ -15,18 +16,18 @@ pub fn run() {
         .plugin(tauri_plugin_fs::init())
         .setup(|app| {
             if let Some(virtual_mic) = detect_virtual_mic() {
-                println!("Virtual mic detected: {}", virtual_mic);
-                app.manage(Mutex::new(AppState::default()));
-                let state = app.state::<Mutex<AppState>>();
-
-                let mut state = state.lock().unwrap();
-                state.virtual_mic = virtual_mic;
-
+                println!("Virtual mic detected: {}", &virtual_mic);
+                app.manage(AppState {
+                    virtual_mic: Mutex::new(virtual_mic),
+                    recorder: Mutex::new(None),
+                });
             } else {
                 eprintln!("Could not find a virtual mic");
                 let _ = app
                     .dialog()
-                    .message("You do not have VB-Audio installed. Please install it from https://vb-audio.com/Cable/")
+                    .message(
+                        "You do not have VB-Audio installed. Please install it from https://vb-audio.com/Cable/",
+                    )
                     .kind(MessageDialogKind::Error)
                     .title("Error")
                     .blocking_show();
@@ -46,6 +47,8 @@ pub fn run() {
             stop_all_sounds,
             add_song,
             list_songs,
+            start_recording,
+            stop_recording,
             download_from_myinstants
         ])
         .run(tauri::generate_context!())

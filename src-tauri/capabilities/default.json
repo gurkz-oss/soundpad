@@ -38,6 +38,14 @@
       ]
     },
     {
+      "identifier": "fs:allow-write-file",
+      "allow": [
+        {
+          "path": "$APPDATA/songs/*"
+        }
+      ]
+    },
+    {
       "identifier": "fs:allow-remove",
       "allow": [
         {
