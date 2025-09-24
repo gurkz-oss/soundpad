@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import solid from "vite-plugin-solid";
 import vitetsconfigpaths from "vite-plugin-tsconfig-paths";
 import topLevelAwait from "vite-plugin-top-level-await";
+import { sveltekit } from "@sveltejs/kit/vite";
 
 // @ts-expect-error process is a nodejs global
 const host = process.env.TAURI_DEV_HOST;
@@ -15,7 +16,7 @@ export default defineConfig(async () => ({
       // The function to generate import names of top-level await promise in each chunk module
       promiseImportName: (i) => `__tla_${i}`,
     }),
-    solid(),
+    sveltekit(),
     vitetsconfigpaths(),
   ],
 
