@@ -9,6 +9,7 @@
     SelectTrigger,
   } from "$lib/components/ui/select";
   import type { PageProps } from "./$types";
+  import { getSongs } from "./songs.remote";
 
   let { data }: PageProps = $props();
 </script>
@@ -38,3 +39,7 @@
     </SelectContent>
   </Select>
 {/if}
+
+{#each await getSongs() as song (song.path)}
+  <p>{song.name}</p>
+{/each}
