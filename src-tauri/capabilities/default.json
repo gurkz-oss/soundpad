@@ -21,6 +21,14 @@
       ]
     },
     {
+      "identifier": "http:default",
+      "allow": [
+        {
+          "url": "https://www.mp3dev.org/"
+        }
+      ]
+    },
+    {
       "identifier": "opener:allow-open-path",
       "allow": [
         {

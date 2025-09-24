@@ -1,5 +1,5 @@
+import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
-import solid from "vite-plugin-solid";
 import vitetsconfigpaths from "vite-plugin-tsconfig-paths";
 import topLevelAwait from "vite-plugin-top-level-await";
 import { sveltekit } from "@sveltejs/kit/vite";
@@ -8,18 +8,12 @@ import { sveltekit } from "@sveltejs/kit/vite";
 const host = process.env.TAURI_DEV_HOST;
 
 // https://vite.dev/config/
-export default defineConfig(async () => ({
+export default defineConfig({
   plugins: [
-    topLevelAwait({
-      // The export name of top-level await promise for each chunk module
-      promiseExportName: "__tla",
-      // The function to generate import names of top-level await promise in each chunk module
-      promiseImportName: (i) => `__tla_${i}`,
-    }),
+    tailwindcss(),
     sveltekit(),
-    vitetsconfigpaths(),
+    vitetsconfigpaths()
   ],
-
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //
   // 1. prevent Vite from obscuring rust errors
@@ -29,16 +23,8 @@ export default defineConfig(async () => ({
     port: 1420,
     strictPort: true,
     host: host || false,
-    hmr: host
-      ? {
-          protocol: "ws",
-          host,
-          port: 1421,
-        }
-      : undefined,
-    watch: {
-      // 3. tell Vite to ignore watching `src-tauri`
-      ignored: ["**/src-tauri/**"],
-    },
-  },
-}));
+    hmr: host ? { protocol: "ws", host, port: 1421 } : undefined,
+    watch: { // 3. tell Vite to ignore watching `src-tauri`
+    ignored: ["**/src-tauri/**"] }
+  }
+});
