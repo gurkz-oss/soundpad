@@ -8,6 +8,7 @@
   import { songListCtx } from "$lib/songs.svelte";
   import { invoke } from "@tauri-apps/api/core";
   import { store } from "$lib/store.svelte";
+  import { checkForAppUpdates } from "$lib/update";
 
   async function selectFile() {
     const path = await open({
@@ -55,4 +56,5 @@
     play a file
   </Button>
   <Button onclick={() => songListResource.refetch()}>refresh song list</Button>
+  <Button onclick={() => checkForAppUpdates(true)}>update</Button>
 </div>
