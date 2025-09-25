@@ -9,7 +9,6 @@
   import { invoke } from "@tauri-apps/api/core";
   import { store } from "$lib/store.svelte";
   import { checkForAppUpdates } from "$lib/update";
-  import { Separator } from "./ui/separator";
 
   async function selectFile() {
     const path = await open({
@@ -38,28 +37,39 @@
   const songListResource = songListCtx.get();
 </script>
 
-<div class="flex h-5 items-center space-x-2 text-sm">
-  <Button
-    onclick={async () => {
-      openPath(await appDataDir());
-    }}
-    class="flex flex-row gap-2"
-  >
-    <SquareArrowOutUpRight size={16} />
-    open soundboard folder
-  </Button>
-  <Button
-    onclick={async () => {
-      const file = await selectFile();
-      await playFile(file);
-    }}
-  >
-    play a file
-  </Button>
-  <Button onclick={async () => await invoke("stop_all_sounds")}>
-    stop all sounds
-  </Button>
-  <Separator orientation="vertical" />
-  <Button onclick={() => songListResource.refetch()}>refresh song list</Button>
-  <Button onclick={() => checkForAppUpdates(true)}>update</Button>
+<div class="flex flex-col md:flex-row md:items-center md:gap-4 text-sm">
+  <div class="flex flex-wrap items-center gap-2">
+    <Button
+      onclick={async () => {
+        openPath(await appDataDir());
+      }}
+      class="flex flex-row items-center gap-2"
+    >
+      <SquareArrowOutUpRight size={16} />
+      open soundboard folder
+    </Button>
+
+    <Button
+      onclick={async () => {
+        const file = await selectFile();
+        await playFile(file);
+      }}
+    >
+      play a file
+    </Button>
+
+    <Button onclick={async () => await invoke("stop_all_sounds")}>
+      stop all sounds
+    </Button>
+  </div>
+
+  <div class="hidden md:flex items-center px-2 text-gray-500 select-none">
+    |
+  </div>
+
+  <div class="flex flex-wrap items-center gap-2 pt-2 md:pt-0">
+    <Button onclick={() => songListResource.refetch()}>refresh song list</Button
+    >
+    <Button onclick={() => checkForAppUpdates(true)}>update</Button>
+  </div>
 </div>
