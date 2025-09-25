@@ -1,8 +1,9 @@
+import { Song } from "$lib/songs.svelte";
 import { invoke } from "@tauri-apps/api/core";
-import type { PageLoad } from "./$types";
 
-export const load: PageLoad = async () => {
+export async function load() {
   return {
-    deviceList: await invoke<string[]>("list_audio_devices"),
+    initialSongs: await invoke<Song[]>("list_songs"),
+    initialDevices: await invoke<string[]>("list_audio_devices"),
   };
-};
+}

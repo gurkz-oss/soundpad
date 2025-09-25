@@ -1,45 +1,44 @@
 <script lang="ts">
-  import { store } from "$lib/store.svelte";
-  import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-  } from "$lib/components/ui/select";
+  import SongList from "$lib/components/song-list.svelte";
+  import { invoke } from "@tauri-apps/api/core";
+  import { songListCtx, type Song } from "$lib/songs.svelte";
+  import { resource } from "runed";
   import type { PageProps } from "./$types";
-  import { getSongs } from "./songs.remote";
+  import { devicesResourceCtx } from "$lib/devices.svelte";
+  import DeviceSelector from "$lib/components/device-selector.svelte";
+  import StatusButtons from "$lib/components/status-buttons.svelte";
 
   let { data }: PageProps = $props();
+
+  const songListResource = resource(
+    () => [],
+    async () => {
+      return await invoke<Song[]>("list_songs");
+    },
+    {
+      initialValue: data.initialSongs,
+    }
+  );
+
+  const devicesResource = resource(
+    () => [],
+    async () => {
+      return await invoke<string[]>("list_audio_devices");
+    },
+    {
+      initialValue: data.initialDevices,
+    }
+  );
+
+  devicesResourceCtx.set(devicesResource);
+  songListCtx.set(songListResource);
 </script>
 
 <p>hi, home page will soon be finished</p>
 
-{#if data.deviceList.length > 0}
-  <Select
-    type={"single"}
-    name="speaker_output"
-    required
-    bind:value={store.state.speakerOutput}
-  >
-    <SelectTrigger>
-      {store.state.speakerOutput}
-    </SelectTrigger>
+<DeviceSelector />
+<br />
 
-    <SelectContent>
-      <SelectGroup>
-        <SelectLabel>devices</SelectLabel>
-        {#each data.deviceList as device (device)}
-          <SelectItem value={device} label={device}>
-            {device}
-          </SelectItem>
-        {/each}
-      </SelectGroup>
-    </SelectContent>
-  </Select>
-{/if}
-
-{#each await getSongs() as song (song.path)}
-  <p>{song.name}</p>
-{/each}
+<SongList />
+<br />
+<StatusButtons />

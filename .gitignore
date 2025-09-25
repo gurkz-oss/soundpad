@@ -2,3 +2,4 @@ node_modules
 dist
 .tauri
 .svelte-kit
+build
