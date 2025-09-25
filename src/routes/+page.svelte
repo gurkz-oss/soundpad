@@ -8,6 +8,7 @@
   import DeviceSelector from "$lib/components/device-selector.svelte";
   import StatusButtons from "$lib/components/status-buttons.svelte";
   import SongAdder from "$lib/components/song-adder/index.js";
+  import SystemAudioRecorder from "$lib/components/system-audio-recorder.svelte";
 
   let { data }: PageProps = $props();
 
@@ -40,6 +41,8 @@
 <SongAdder />
 <DeviceSelector />
 <SongList />
+<br />
+<SystemAudioRecorder />
 <br />
 <StatusButtons />
 <br />
