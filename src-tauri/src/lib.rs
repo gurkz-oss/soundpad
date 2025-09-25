@@ -7,8 +7,11 @@ use internal::cmd::{
 use internal::recorder::{start_recording, stop_recording};
 use internal::state::AppState;
 use std::sync::Mutex;
+use std::time::Duration;
 use tauri::Manager;
 use tauri_plugin_dialog::{DialogExt, MessageDialogKind};
+use tauri_plugin_svelte::PrettyTomlMarshaler;
+use tauri_store::SaveStrategy;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -35,6 +38,21 @@ pub fn run() {
             }
             Ok(())
         })
+        .plugin(tauri_plugin_svelte::Builder::new()
+        .marshaler(Box::new(PrettyTomlMarshaler))
+            .default_save_strategy(SaveStrategy::throttle_secs(3))
+            .autosave(Duration::from_secs(60))
+            .build()
+        )
+        .plugin(
+            tauri_plugin_log::Builder::new()
+            .target(tauri_plugin_log::Target::new(
+                tauri_plugin_log::TargetKind::LogDir {
+                    file_name: Some("logs".to_string()),
+                },
+            ))
+            .build()
+        )
         .plugin(tauri_plugin_http::init())
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_store::Builder::new().build())

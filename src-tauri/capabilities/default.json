@@ -2,7 +2,9 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
   "description": "Capability for the main window",
-  "windows": ["main"],
+  "windows": [
+    "main"
+  ],
   "permissions": [
     "core:default",
     "opener:default",
@@ -17,6 +19,14 @@
       "allow": [
         {
           "url": "https://myinstants-api.vercel.app/"
+        }
+      ]
+    },
+    {
+      "identifier": "http:default",
+      "allow": [
+        {
+          "url": "https://www.mp3dev.org/"
         }
       ]
     },
@@ -60,6 +70,7 @@
           "path": "$APPDATA/songs/*"
         }
       ]
-    }
+    },
+    "log:default"
   ]
 }
