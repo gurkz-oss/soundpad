@@ -25,6 +25,7 @@
         "valibot": "^1.1.0",
       },
       "devDependencies": {
+        "@formisch/svelte": "^0.2.0",
         "@internationalized/date": "^3.8.1",
         "@lucide/svelte": "^0.544.0",
         "@sveltejs/adapter-static": "^3.0.9",
@@ -146,6 +147,8 @@
     "@floating-ui/utils": ["@floating-ui/utils@0.2.10", "", {}, "sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ=="],
 
     "@formisch/solid": ["@formisch/solid@0.3.1", "", { "peerDependencies": { "solid-js": "^1.6.0", "typescript": ">=5", "valibot": "^1.0.0" }, "optionalPeers": ["typescript"] }, "sha512-yGfnzzX1LmctmcYU0/TIJBN6y2vp/YU06IXZedstEsitewUUdKbBNAzfZbfhKY+9zumgBuHkxD4MweUitasMSQ=="],
+
+    "@formisch/svelte": ["@formisch/svelte@0.2.0", "", { "peerDependencies": { "svelte": "^5.29.0", "typescript": ">=5", "valibot": "^1.0.0" }, "optionalPeers": ["typescript"] }, "sha512-h44Jqs/TYP9P8GxvgQGaWNZPdA+0418DIcWlX/77VmfpIpKXKaFsa5xHWrha9syuyIldNSqJKLnb4zTg5IhTdQ=="],
 
     "@internationalized/date": ["@internationalized/date@3.9.0", "", { "dependencies": { "@swc/helpers": "^0.5.0" } }, "sha512-yaN3brAnHRD+4KyyOsJyk49XUvj2wtbNACSqg0bz3u8t2VuzhC8Q5dfRnrSxjnnbDb+ienBnkn1TzQfE154vyg=="],
 

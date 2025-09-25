@@ -36,6 +36,7 @@
     "valibot": "^1.1.0"
   },
   "devDependencies": {
+    "@formisch/svelte": "^0.2.0",
     "@internationalized/date": "^3.8.1",
     "@lucide/svelte": "^0.544.0",
     "@sveltejs/adapter-static": "^3.0.9",

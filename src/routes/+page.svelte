@@ -7,6 +7,7 @@
   import { devicesResourceCtx } from "$lib/devices.svelte";
   import DeviceSelector from "$lib/components/device-selector.svelte";
   import StatusButtons from "$lib/components/status-buttons.svelte";
+  import SongAdder from "$lib/components/song-adder/index.js";
 
   let { data }: PageProps = $props();
 
@@ -36,9 +37,9 @@
 
 <p>hi, home page will soon be finished</p>
 
+<SongAdder />
 <DeviceSelector />
-<br />
-
 <SongList />
 <br />
 <StatusButtons />
+<br />

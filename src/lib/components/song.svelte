@@ -8,6 +8,7 @@
 </script>
 
 <Button
+  class="whitespace-nowrap overflow-hidden text-ellipsis truncate w-full text-left"
   onclick={async (e) => {
     e.preventDefault();
     const selectedDevice = store.state.speakerOutput;
