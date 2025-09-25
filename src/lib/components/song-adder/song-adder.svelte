@@ -1,5 +1,6 @@
 <script>
   import MyInstants from "./myinstants.svelte";
+  import FileAdder from "./file-adder.svelte";
   import {
     Dialog,
     DialogTrigger,
@@ -27,8 +28,8 @@
       <DialogDescription>add from myinstants</DialogDescription>
       <MyInstants {closeSongAdderDialog} />
 
-      <!-- <DialogDescription>add from a file</DialogDescription>
-      <FileAdder /> -->
+      <DialogDescription>add from a file</DialogDescription>
+      <FileAdder {closeSongAdderDialog} />
     </DialogHeader>
   </DialogContent>
 </Dialog>

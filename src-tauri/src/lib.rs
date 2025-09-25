@@ -44,6 +44,15 @@ pub fn run() {
             .autosave(Duration::from_secs(60))
             .build()
         )
+        .plugin(
+            tauri_plugin_log::Builder::new()
+            .target(tauri_plugin_log::Target::new(
+                tauri_plugin_log::TargetKind::LogDir {
+                    file_name: Some("logs".to_string()),
+                },
+            ))
+            .build()
+        )
         .plugin(tauri_plugin_http::init())
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_store::Builder::new().build())
