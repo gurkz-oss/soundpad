@@ -9,6 +9,7 @@
   import { invoke } from "@tauri-apps/api/core";
   import { store } from "$lib/store.svelte";
   import { checkForAppUpdates } from "$lib/update";
+  import { Separator } from "./ui/separator";
 
   async function selectFile() {
     const path = await open({
@@ -37,7 +38,7 @@
   const songListResource = songListCtx.get();
 </script>
 
-<div class="flex flex-row gap-2">
+<div class="flex h-5 items-center space-x-2 text-sm">
   <Button
     onclick={async () => {
       openPath(await appDataDir());
@@ -55,6 +56,10 @@
   >
     play a file
   </Button>
+  <Button onclick={async () => await invoke("stop_all_sounds")}>
+    stop all sounds
+  </Button>
+  <Separator orientation="vertical" />
   <Button onclick={() => songListResource.refetch()}>refresh song list</Button>
   <Button onclick={() => checkForAppUpdates(true)}>update</Button>
 </div>
