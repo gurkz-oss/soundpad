@@ -1,7 +1,6 @@
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 import vitetsconfigpaths from "vite-plugin-tsconfig-paths";
-import topLevelAwait from "vite-plugin-top-level-await";
 import { sveltekit } from "@sveltejs/kit/vite";
 import { MagicRegExpTransformPlugin } from "magic-regexp/transform";
 
