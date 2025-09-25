@@ -41,7 +41,6 @@
 </script>
 
 <Form
-  class="flex w-full max-w-sm items-center space-x-2"
   of={form}
   onsubmit={async ({ url }) => {
     await invoke("download_from_myinstants", {
@@ -52,15 +51,22 @@
     });
   }}
 >
-  <Field of={form} path={["url"]}>
-    {#snippet children(field)}
-      <Input aria-invalid={field.isValid ? "false" : "true"} {...field.props} />
-      {#if !field.isValid}
-        <span class="text-destructive text-sm font-medium">
-          {field.errors && field.errors[0]}
-        </span>
-      {/if}
-    {/snippet}
-  </Field>
-  <Button disabled={form.isSubmitting} type="submit">add</Button>
+  <div>
+    <Field of={form} path={["url"]}>
+      {#snippet children(field)}
+        <div class="flex w-full max-w-sm items-center space-x-2">
+          <Input
+            aria-invalid={field.isValid ? "false" : "true"}
+            {...field.props}
+          />
+          <Button disabled={form.isSubmitting} type="submit">add</Button>
+        </div>
+        {#if !field.isValid}
+          <span class="text-destructive text-sm font-medium">
+            {field.errors && field.errors[0]}
+          </span>
+        {/if}
+      {/snippet}
+    </Field>
+  </div>
 </Form>
