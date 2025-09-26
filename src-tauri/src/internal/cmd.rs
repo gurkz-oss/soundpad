@@ -1,9 +1,9 @@
 use crate::internal::state::AppState;
 use crate::internal::{audio, fs, myinstants, util};
 use cpal::traits::{DeviceTrait, HostTrait};
+use std::path::PathBuf;
 use std::sync::Arc;
 use std::time::SystemTime;
-use std::{path::PathBuf, sync::Mutex};
 use tauri::{Manager, State};
 
 #[tauri::command]
