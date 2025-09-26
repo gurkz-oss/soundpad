@@ -4306,6 +4306,7 @@ dependencies = [
  "chrono",
  "cpal",
  "futures",
+ "futures-util",
  "lame",
  "mp3lame-encoder",
  "rodio",
